@@ -12,6 +12,7 @@ type Service struct {
 	Name    string
 	Path    string
 	Command string
+	Color   string
 }
 
 type Config struct {
@@ -33,6 +34,7 @@ func parseConfig(filename string) Config {
 
 	configDir, _ := filepath.Abs(filepath.Dir(filename))
 	services := []Service{}
+	serviceIndex := 0
 
 	for _, key := range tree.Keys() {
 		if key == "name" {
@@ -48,7 +50,9 @@ func parseConfig(filename string) Config {
 				Name:    key,
 				Path:    filepath.Join(configDir, path.(string)),
 				Command: cmd.(string),
+				Color:   getServiceColor(serviceIndex),
 			})
+			serviceIndex++
 		}
 	}
 
