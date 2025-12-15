@@ -1,0 +1,15 @@
+# runtime config file!
+
+name = "inferenceLake"
+
+[backend]
+path = "/backend"
+runCommand = "npm run start"
+
+[frontend]
+path = "/website"
+runCommand = "npm run dev"
+
+[llm-proxy]
+path = "/workers/llm-proxy"
+runCommand = "bunx wrangler dev"
