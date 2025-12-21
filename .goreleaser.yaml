@@ -22,6 +22,9 @@ builds:
       - linux
       - windows
       - darwin
+    goarch:
+      - amd64
+      - arm64
 
 archives:
   - formats: [tar.gz]
@@ -50,4 +53,4 @@ release:
 
     ---
 
-    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
+    We use [GoReleaser](https://github.com/goreleaser/goreleaser) to release this tool.
