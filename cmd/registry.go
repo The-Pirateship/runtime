@@ -9,8 +9,10 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "rt",
-	Short: "The one place to run your code",
+	Use:     "runtime",
+	Short:   "Spawn zellij tabs for your project",
+	Long:    "Runtime is an awesome CLI to spawn zellij tabs for your project",
+	Aliases: []string{"rt"},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
