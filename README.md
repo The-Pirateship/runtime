@@ -1,6 +1,6 @@
 # runtime
 
-many projects have a frontend, backend and some other services that you have to run together. Runtime is a lightweight utility to specificy services in a config file and then run them all at once in a multiplexer.
+many projects have a frontend, backend and some other services that you have to run together. runtime is a lightweight utility to specificy services in a config file and then run them all at once in a multiplexer.
 
 
 ### installation
