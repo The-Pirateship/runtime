@@ -53,10 +53,4 @@ release:
 
     ---
 
-    We use [GoReleaser](https://github.com/goreleaser/goreleaser) to release this tool.
-
-brews:
-  - name: runtime
-    github:
-      owner: The-Pirateship
-      name: homebrew-runtime
+    We use [GoReleaser](https://github.com/goreleaser/goreleaser) to release this tool
