@@ -33,8 +33,8 @@ func generateZellijLayout(config Config) error {
 	// Add tabs for each service
 	for _, service := range config.Services {
 		layoutBuilder.WriteString(fmt.Sprintf("    tab name=\"%s\" {\n", service.Name))
-		layoutBuilder.WriteString("        pane command=\"sh\" {\n")
-		layoutBuilder.WriteString(fmt.Sprintf("            args \"-c\" \"cd %s && %s\"\n", service.Path, service.Command))
+		layoutBuilder.WriteString(fmt.Sprintf("        pane borderless=true command=\"sh\" cwd=\"%s\" {\n", service.Path))
+		layoutBuilder.WriteString(fmt.Sprintf("            args \"-c\" \"%s\"\n", service.Command))
 		layoutBuilder.WriteString("        }\n")
 		layoutBuilder.WriteString("    }\n")
 	}
