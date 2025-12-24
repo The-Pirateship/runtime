@@ -1,9 +1,15 @@
 # runtime
 
-**runtime** is a lightweight tool for developers who work develop multi-service apps (frontend, backend, workers etc. all running simultanously)
+**runtime** is a lightweight tool that thelps you create nice tabbed terminals layouts (with [zellij](https://zellij.dev/)) for developers who work develop multi-service apps (frontend, backend, workers etc. all running simultanously). 
+
+It works by generating zellij `layout.kdl` and `config.kdl` files behind the scene from a `runtime.toml` file you define.
+
+https://github.com/user-attachments/assets/0450550b-aeec-4425-9498-421fc245d233
 
 usually you have to open tabs and run your frontend, backend... one by one.
 with runtime, define a `runtime.toml` file, something like this
+
+### summary
 
 ```runtime.toml
 name = "inferenceLake"
