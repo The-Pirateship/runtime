@@ -1,9 +1,11 @@
 package dev
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 
 	"github.com/pelletier/go-toml"
 )
@@ -34,11 +36,15 @@ func parseConfig(filename string) Config {
 	configDir, _ := filepath.Abs(filepath.Dir(filename))
 	services := []Service{}
 
-	for _, key := range tree.Keys() {
-		if key == "name" {
-			continue
-		}
+	// Get service order from file
+	serviceOrder, err := getServiceOrder(filename)
+	if err != nil {
+		fmt.Printf("❌ Failed to get service order: %v\n", err)
+		return Config{}
+	}
 
+	// Process services in the order they appear in the file
+	for _, key := range serviceOrder {
 		svc := tree.Get(key).(*toml.Tree)
 		path := svc.Get("path")
 		cmd := svc.Get("runCommand")
@@ -53,4 +59,29 @@ func parseConfig(filename string) Config {
 	}
 
 	return Config{"", services}
+}
+
+// getServiceOrder scans the TOML file and returns service names in definition order
+func getServiceOrder(filename string) ([]string, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	var serviceOrder []string
+	scanner := bufio.NewScanner(file)
+	sectionRegex := regexp.MustCompile(`^\[([^\]]+)\]`)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		if matches := sectionRegex.FindStringSubmatch(line); matches != nil {
+			serviceName := matches[1]
+			if serviceName != "name" { // skip the global name section
+				serviceOrder = append(serviceOrder, serviceName)
+			}
+		}
+	}
+
+	return serviceOrder, scanner.Err()
 }
