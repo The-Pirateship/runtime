@@ -3,6 +3,7 @@ package cmd
 import (
 	"os"
 
+	"github.com/The-Pirateship/runtime/cmd/deploy"
 	"github.com/The-Pirateship/runtime/cmd/dev"
 	"github.com/spf13/cobra"
 )
@@ -26,6 +27,7 @@ func Execute() {
 // RegisterAllCommands registers all available commands with the root command
 func RegisterAllCommands(rootCmd *cobra.Command) {
 	dev.RegisterCommand(rootCmd)
+	deploy.RegisterCommand(rootCmd)
 }
 
 func init() {

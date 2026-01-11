@@ -1,4 +1,4 @@
-package dev
+package utils
 
 import (
 	"bufio"
@@ -14,6 +14,7 @@ type Service struct {
 	Name    string
 	Path    string
 	Command string
+	RunsOn  string
 }
 
 type Config struct {
@@ -21,7 +22,7 @@ type Config struct {
 	Services []Service
 }
 
-func parseConfig(filename string) Config {
+func ParseConfig(filename string) Config {
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		fmt.Printf("❌ %s not found\n", filename)
 		return Config{}
@@ -36,6 +37,12 @@ func parseConfig(filename string) Config {
 	configDir, _ := filepath.Abs(filepath.Dir(filename))
 	services := []Service{}
 
+	// Get the project name from the TOML
+	var projectName string
+	if nameValue := tree.Get("name"); nameValue != nil {
+		projectName = nameValue.(string)
+	}
+
 	// Get service order from file
 	serviceOrder, err := getServiceOrder(filename)
 	if err != nil {
@@ -48,17 +55,25 @@ func parseConfig(filename string) Config {
 		svc := tree.Get(key).(*toml.Tree)
 		path := svc.Get("path")
 		cmd := svc.Get("runCommand")
+		runsOn := svc.Get("runsOn")
 
 		if path != nil && cmd != nil {
-			services = append(services, Service{
+			service := Service{
 				Name:    key,
 				Path:    filepath.Join(configDir, path.(string)),
 				Command: cmd.(string),
-			})
+			}
+
+			// Handle optional runsOn field (no validation here)
+			if runsOn != nil {
+				service.RunsOn = runsOn.(string)
+			}
+
+			services = append(services, service)
 		}
 	}
 
-	return Config{"", services}
+	return Config{projectName, services}
 }
 
 // getServiceOrder scans the TOML file and returns service names in definition order

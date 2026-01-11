@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
+	"github.com/The-Pirateship/runtime/pkg/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -20,8 +21,8 @@ func RegisterCommand(rootCmd *cobra.Command) {
 }
 
 func runDev(cmd *cobra.Command, args []string) {
-	// Parse config
-	parsedConfig := parseConfig("runtime.toml")
+	// Parse config using shared utils
+	parsedConfig := utils.ParseConfig("runtime.toml")
 	if len(parsedConfig.Services) == 0 {
 		fmt.Println("❌ No services found in runtime.toml")
 		return

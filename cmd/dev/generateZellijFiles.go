@@ -5,9 +5,11 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/The-Pirateship/runtime/pkg/utils"
 )
 
-func generateZellijLayout(config Config) error {
+func generateZellijLayout(config utils.Config) error {
 	// Create .zellij directory if it doesn't exist
 	zellijDir := ".zellij"
 	if err := os.MkdirAll(zellijDir, 0755); err != nil {
